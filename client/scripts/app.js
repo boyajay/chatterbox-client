@@ -30,24 +30,45 @@ app.send = function(){
       console.error('chatterbox: Failed to send message');
     }
   });
-  test();
+  refreshFeed();
 };
 
-function test (){
-  console.log(app.server);
-  $.get(app.server, getInfo);
+
+function refreshFeed (roomname){
+  var obj ={
+    "order" : "-createdAt" 
+  };
+  if(roomname){
+    obj.where = {"roomname": {"$regex": $("#roomMenu :selected").text()}};
+  }
+//{"name":{"$regex":"\Qtest\E"}}
+
+   $.ajax({
+    url: app.server,
+    type: 'GET',
+    data: obj,
+    contentType: 'application/json',
+    success: function(data){console.log("refreshing"); getInfo(data);},
+    error: function (data) {
+
+      console.error('chatterbox: Failed to send message');
+    }
+  });
+
+  //$.get(app.server, getInfo);
 }
 
-$.get(app.server, getInfo);
+$.get(app.server, refreshFeed);
 
 app.init = function(){};
 
+  var rooms = [];
+  var dataHolder;
 function getInfo(data){
-  var dataHolder = data;
+  dataHolder = data;
   $('select').empty();
   $("#chats").empty();
-  var rooms = [];
-  for(var i = 0; i < dataHolder.results.length; i++) {
+  for(var i =0; i < dataHolder.results.length; i++) {
     var dataName = dataHolder.results[i].username;
     var dataText = dataHolder.results[i].text;
     var currentroom = dataHolder.results[i].roomname;
@@ -55,17 +76,17 @@ function getInfo(data){
     var username;
     var text;
     var roomName;
-    if(dataName !== undefined){
-     username = dataName.match(/[^\<\>\(\)\'\"\{\}\&\|\[\]]+/ig);
+    if(dataName){
+     username = dataName.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
      }
-    if(dataText !== undefined){
-     text = dataText.match(/[^\<\>\(\)\'\"\{\}\&\|\[\]]+/ig);
+    if(dataText){
+     text = dataText.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
      }
-    $("#chats").prepend( username + ": " + text + '<br>');
+    $("#chats").append("<div class='posts'>"+ username + ": " + text + ' </div> <br>');
     
 
-    if(currentroom !== undefined){
-     roomName= currentroom.match(/[^\<\>\(\)\'\"\{\}\&\|\[\]]+/ig);
+    if(currentroom){
+     roomName = currentroom.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
     
      }
     
@@ -73,9 +94,34 @@ function getInfo(data){
       rooms.push(roomName[0]);
      
     }
+
   }
   for(var j = 0; j < rooms.length; j++) {
     $('select').append("<option value="+ rooms[j] + ">" + rooms[j] + "</option>");
   }
 }
+
+
+function roomSelect(){
+  var roomNameSelected = $("#roomMenu :selected").text();
+  refreshFeed(roomNameSelected);
+}
+
+app.friendMaker = function(){
+  var fullList = $('.posts');
+  // console.log(fullList, "fullList");
+  // console.log(fullList[0].innerHTML);
+  for(var i = 0; i < fullList.length; i++){
+    if(fullList[i].innerHTML.match(/[^:]+/)[0] === $(this).text().match(/[^:]+/)[0]){
+      console.log("match");
+      $(fullList[i]).addClass('username');
+    }
+  }
+  // var sentence = $(this).text();
+  // console.log(sentence.match(/[^:]+/)[0]);
+  // console.log(dataHolder.results[10].username);
+};
+  $(document).on('click', '.posts' , function(){app.friendMaker.call(this);});
+
+
 

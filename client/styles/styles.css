@@ -82,3 +82,22 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
+
+/*.posts.username {
+    color: red;
+    font-weight: 1000;
+}*/
+@-webkit-keyframes titleAnimation {
+    0%   {color: black;}
+   25%  {color: #ff3333 ;}
+   50%  {color: #0099ff ;}
+   75% {color: green;}
+   100% {color: orange;}
+
+}
+
+.posts.username {
+    animation-name: titleAnimation;
+   animation-duration: 8s;
+   animation-iteration-count: infinite;
+}

@@ -18,12 +18,10 @@
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
     </div>
-    <select>
+    <select id = "roomMenu" onchange="roomSelect()">
     </select>
     <div>
-      <button class="refresh" onclick="test()"> Click to Refresh
-    </div>
-    <div id="chats">     
+      <button class="refresh" onclick="refreshFeed()"> Click to Refresh
     </div>
     <form>
     User Name:
@@ -31,10 +29,14 @@
     <br>  
     Enter Message:
     <input class="input" type = "text" value = "">
+    <br>
     Room Name:
     <input class="room" type = "text" value = "">
     <br>  
     <div class="submit" onclick="app.send()"> Submit
+    </div>
     </form>
+    <div id="chats">
+    </div>
   </body>
 </html>

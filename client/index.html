@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
-
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
     <!-- dependencies -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
@@ -13,30 +14,66 @@
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
-  <body>
-    <div id="main">
-      <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
-    </div>
-    <select id = "roomMenu" onchange="roomSelect()">
-    </select>
-    <div>
-      <button class="refresh" onclick="refreshFeed()"> Click to Refresh
-    </div>
-    <form>
-    User Name:
-    <input class="name" type = "text" value = "">
-    <br>  
-    Enter Message:
-    <input class="input" type = "text" value = "">
-    <br>
-    Room Name:
-    <input class="room" type = "text" value = "">
-    <br>  
-    <div class="submit" onclick="app.send()"> Submit
-    </div>
-    </form>
-    <div id="chats">
-    </div>
-  </body>
+    <container>  
+      <body>
+        <div id="main" class="row">
+          <h1 class="text-center">chatterbox</h1>
+          <!-- Your HTML goes here! -->
+        </div>
+        <br>
+        <div class="row">
+        <div class="col-md-4 text-right"> Select a chat room:</div>
+        <select id = "roomMenu" class=" col-md-4 btn btn-info dropdown-toggle" onchange="app.roomSelect()">
+        </select>
+        <div class="col-md-4 text-left">
+        </div>
+        <br>
+
+        <form>
+            <div class="row">
+                <div class="col-md-4 text-right">
+                User Name:
+                </div>
+                <div class = "col-md-8 text-left">
+                <input class="name" type = "text" value = "">
+                </div>
+            </div>
+            <br>  
+            <div class="row">
+                <div class="col-md-4 text-right">
+                Enter message:
+                </div>
+                <div class = "col-md-8 text-left">
+                <input class="input" type = "text" value = "">
+                </div>
+            </div>
+            <br>  
+            <div class="row">
+                <div class="col-md-4 text-right">
+                Room Name:
+                </div>
+                <div class = "col-md-8 text-left">
+                <input class="room" type = "text" value = "">
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class ="col-md-5 text-right buttonrow">
+                <button class="sendmsg btn btn-primary" onclick="app.send()" style="cursor:pointer"> Submit
+            </div>
+            <div class ="col-md-7 text-left buttonrow">
+            <button class="refresh btn btn-success" onclick="app.refreshFeed()"> Click to Refresh
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class ="col-md-3"></div>
+            <div class = "col-md-8 text-left" id="chats">
+            </div>
+            <div class ="col-md-1 text-left" id="friendsList">
+            Friends<hr><span></span>
+            </div>
+      </div>
+      </body>
+    </container>
 </html>

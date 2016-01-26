@@ -1,3 +1,11 @@
+@-webkit-keyframes titleAnimation {
+    0%   {color: black;}
+   25%  {color: #ff3333 ;}
+   50%  {color: #0099ff ;}
+   75% {color: green;}
+   100% {color: orange;}
+
+}
 body {
     background: #eee;
     text-align: center;
@@ -8,11 +16,16 @@ body {
 #main, #chats {
     width: 500px;
     margin: auto;
-    text-align: left;
+    /*text-align: left;*/
     background: white;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+}
+
+#chats{
+    border-width: 5px;
+    border-radius: 30px;
 }
 
 #main h1 {
@@ -54,9 +67,13 @@ form {
 
 form input[type=text] {
     margin-right: 10px;
-    width: 70%;
+    width: 50%;
     font-size: 12px;
     padding: 5px;
+}
+.buttonrow {
+    padding-bottom: 30px;
+    margin-top: -20px;
 }
 
 .chat {
@@ -73,6 +90,26 @@ form input[type=text] {
     background-color: #ddd;
 }
 
+#friendsList{
+   animation-name: titleAnimation;
+   animation-duration: 8s;
+   animation-iteration-count: infinite;
+    width: 250px;
+    margin: auto;
+    /*text-align: left;*/
+    background: white;
+    padding: 50px 60px;
+    border: solid #ddd;
+    border-width: 5px;
+    border-radius: 30px;
+    margin-left: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+#friendsList span{
+    font-weight: normal;
+}
+
 .spinner {
     float: right;
     height: 46px;
@@ -87,17 +124,14 @@ form input[type=text] {
     color: red;
     font-weight: 1000;
 }*/
-@-webkit-keyframes titleAnimation {
-    0%   {color: black;}
-   25%  {color: #ff3333 ;}
-   50%  {color: #0099ff ;}
-   75% {color: green;}
-   100% {color: orange;}
 
+.submitbutton {
+    margin: -30px 0 40px 0;
 }
 
 .posts.username {
-    animation-name: titleAnimation;
+   animation-name: titleAnimation;
    animation-duration: 8s;
    animation-iteration-count: infinite;
+   font-weight: bold;
 }

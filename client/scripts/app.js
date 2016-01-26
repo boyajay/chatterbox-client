@@ -2,11 +2,8 @@
 var app ={};
 app.server = 'https://api.parse.com/1/classes/chatterbox?limit=1000'; 
 
-
-
-//$('.submit').on('click', app.send);
+var friendsSelected = [];
 app.send = function(){
-  //get the text from the input html field
   var msg = $('.input').val();
   var usr = $('.name').val();
   var rmname = $('.room').val()|| "public";
@@ -16,8 +13,6 @@ app.send = function(){
     text: msg,
     roomname: rmname
   };
-  // console.log(msgObj, "msgObj!");
-
   $.ajax({
     url: app.server,
     type: 'POST',
@@ -30,19 +25,16 @@ app.send = function(){
       console.error('chatterbox: Failed to send message');
     }
   });
-  refreshFeed();
+  app.refreshFeed();
 };
 
-
-function refreshFeed (roomname){
+app.refreshFeed = function(roomname){
   var obj ={
     "order" : "-createdAt" 
   };
   if(roomname){
     obj.where = {"roomname": {"$regex": $("#roomMenu :selected").text()}};
   }
-//{"name":{"$regex":"\Qtest\E"}}
-
    $.ajax({
     url: app.server,
     type: 'GET',
@@ -50,15 +42,16 @@ function refreshFeed (roomname){
     contentType: 'application/json',
     success: function(data){console.log("refreshing"); getInfo(data);},
     error: function (data) {
-
       console.error('chatterbox: Failed to send message');
     }
   });
+};
 
-  //$.get(app.server, getInfo);
-}
+$.get(app.server, app.refreshFeed);
 
-$.get(app.server, refreshFeed);
+app.filterEscapes = function(string){
+  return string.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
+};
 
 app.init = function(){};
 
@@ -77,16 +70,16 @@ function getInfo(data){
     var text;
     var roomName;
     if(dataName){
-     username = dataName.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
+     username = app.filterEscapes(dataName);
      }
     if(dataText){
-     text = dataText.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
+     text = app.filterEscapes(dataText);
      }
     $("#chats").append("<div class='posts'>"+ username + ": " + text + ' </div> <br>');
     
 
     if(currentroom){
-     roomName = currentroom.match(/[^\<\>\(\)\"\{\}\&\|\[\]]+/ig);
+     roomName = app.filterEscapes(currentroom);
     
      }
     
@@ -99,27 +92,43 @@ function getInfo(data){
   for(var j = 0; j < rooms.length; j++) {
     $('select').append("<option value="+ rooms[j] + ">" + rooms[j] + "</option>");
   }
+  app.friendMatcher();
+
 }
+app.friendMatcher = function (){
+  var fullList = $('.posts');
+  for(var k = 0; k < fullList.length; k++){
+    for(var j =0; j <friendsSelected.length; j++){
+      if(fullList[k].innerHTML.match(/[^:]+/)[0] === friendsSelected[j]){
+        console.log("match");
+        $(fullList[k]).addClass('username');
+      }
+    }
+  }  
+  //friendsSelected  append to id "friendsList
+  $('#friendsList span').empty();
+  for (var i=0; i < friendsSelected.length; i++){
+    $('#friendsList span').append("<div class='aFriend'>" + friendsSelected[i] + "</div>");
+  console.log(friendsSelected, friendsSelected[i]);
+  }
 
+};
 
-function roomSelect(){
+app.roomSelect= function (){
   var roomNameSelected = $("#roomMenu :selected").text();
-  refreshFeed(roomNameSelected);
-}
+  app.refreshFeed(roomNameSelected);
+};
+
 
 app.friendMaker = function(){
+
+  var currentName = $(this).text().match(/[^:]+/)[0];
   var fullList = $('.posts');
-  // console.log(fullList, "fullList");
-  // console.log(fullList[0].innerHTML);
-  for(var i = 0; i < fullList.length; i++){
-    if(fullList[i].innerHTML.match(/[^:]+/)[0] === $(this).text().match(/[^:]+/)[0]){
-      console.log("match");
-      $(fullList[i]).addClass('username');
-    }
+  if (friendsSelected.indexOf(currentName) ===-1){
+    friendsSelected.push(currentName);
   }
-  // var sentence = $(this).text();
-  // console.log(sentence.match(/[^:]+/)[0]);
-  // console.log(dataHolder.results[10].username);
+  app.friendMatcher();
+
 };
   $(document).on('click', '.posts' , function(){app.friendMaker.call(this);});
 

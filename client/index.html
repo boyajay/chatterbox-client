@@ -18,13 +18,22 @@
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
     </div>
-    <div class="wrapper">
+    <select>
+    </select>
+    <div>
       <button class="refresh" onclick="test()"> Click to Refresh
     </div>
     <div id="chats">     
     </div>
-    <form>Enter Message:
+    <form>
+    User Name:
+    <input class="name" type = "text" value = "">
+    <br>  
+    Enter Message:
     <input class="input" type = "text" value = "">
+    Room Name:
+    <input class="room" type = "text" value = "">
+    <br>  
     <div class="submit" onclick="app.send()"> Submit
     </form>
   </body>

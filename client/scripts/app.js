@@ -55,6 +55,6 @@ function getInfo(data){
      if(dataText !== undefined){
      text = dataText.match(/[^\<\>\(\)\'\"\{\}\&\|\[\]]+/ig);
      }
-    $("#chats").append( username + ": " + text + '<br>');
+    $("#chats").prepend( username + ": " + text + '<br>');
   }
 }

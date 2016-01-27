@@ -46,6 +46,10 @@ app.refreshFeed = function(roomname){
   });
 };
 
+app.autoRefresh= function(){
+  setInterval(app.refreshFeed, 5000);
+};
+
 $.get(app.server, app.refreshFeed);
 
 app.filterEscapes = function(string){
@@ -53,7 +57,6 @@ app.filterEscapes = function(string){
 };
 
 app.init = function(){};
-
   var rooms = [];
   var dataHolder;
 function getInfo(data){
@@ -64,7 +67,8 @@ function getInfo(data){
     let dataName = dataHolder.results[i].username;
     let dataText = dataHolder.results[i].text;
     let currentroom = dataHolder.results[i].roomname;
-    // console.log("currentroom is "+ currentroom );
+    let timestamp = dataHolder.results[i].createdAt;
+    console.log("timestamp is "+  timestamp);
     let username;
     let text;
     let roomName;
@@ -74,17 +78,12 @@ function getInfo(data){
     if(dataText){
      text = app.filterEscapes(dataText);
      }
-    $("#chats").append("<div class='posts'>"+ username + ": " + text + ' </div> <br>');
-    
-
+    $("#chats").append("<div class='posts'>"+ username + ": " + text + '<br> <span>'+'- posted '+ moment(timestamp).fromNow() + '</span> </div> <br>');
     if(currentroom){
      roomName = app.filterEscapes(currentroom);
-    
-     }
-    
+     }    
     if (roomName && rooms.indexOf(roomName[0]) === -1){
       rooms.push(roomName[0]);
-     
     }
 
   }
@@ -92,7 +91,6 @@ function getInfo(data){
     $('select').append("<option value="+ rooms[j] + ">" + rooms[j] + "</option>");
   }
   app.friendMatcher();
-
 }
 app.friendMatcher = function (){
   let fullList = $('.posts');
@@ -110,14 +108,12 @@ app.friendMatcher = function (){
     $('#friendsList span').append("<div class='aFriend'>" + friendsSelected[i] + "</div>");
   console.log(friendsSelected, friendsSelected[i]);
   }
-
 };
 
 app.roomSelect= function (){
   let roomNameSelected = $("#roomMenu :selected").text();
   app.refreshFeed(roomNameSelected);
 };
-
 
 app.friendMaker = function(){
 

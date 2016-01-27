@@ -6,8 +6,16 @@
    100% {color: orange;}
 
 }
+
+container {
+    background-color: #ffffcc;
+}
+.posts:nth-of-type(odd) {
+    background: #81DAF5;
+}
+
 body {
-    background: #eee;
+    background: #ffffcc;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
@@ -74,6 +82,7 @@ form input[type=text] {
 .buttonrow {
     padding-bottom: 30px;
     margin-top: -20px;
+    margin-left:-15px;
 }
 
 .chat {
@@ -134,4 +143,9 @@ form input[type=text] {
    animation-duration: 8s;
    animation-iteration-count: infinite;
    font-weight: bold;
+}
+
+.posts span {
+    font-size: 0.75em;
+    font-style: italic;
 }

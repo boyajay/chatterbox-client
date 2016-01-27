@@ -4,11 +4,10 @@ app.server = 'https://api.parse.com/1/classes/chatterbox?limit=1000';
 
 var friendsSelected = [];
 app.send = function(){
-  var msg = $('.input').val();
-  var usr = $('.name').val();
-  var rmname = $('.room').val()|| "public";
-  console.log(msg, "msg");
-  var msgObj = {
+  let msg = $('.input').val();
+  let usr = $('.name').val();
+  let rmname = $('.room').val()|| "public";
+  let msgObj = {
     username: usr,
     text: msg,
     roomname: rmname
@@ -29,7 +28,7 @@ app.send = function(){
 };
 
 app.refreshFeed = function(roomname){
-  var obj ={
+  let obj ={
     "order" : "-createdAt" 
   };
   if(roomname){
@@ -61,14 +60,14 @@ function getInfo(data){
   dataHolder = data;
   $('select').empty();
   $("#chats").empty();
-  for(var i =0; i < dataHolder.results.length; i++) {
-    var dataName = dataHolder.results[i].username;
-    var dataText = dataHolder.results[i].text;
-    var currentroom = dataHolder.results[i].roomname;
+  for(let i =0; i < dataHolder.results.length; i++) {
+    let dataName = dataHolder.results[i].username;
+    let dataText = dataHolder.results[i].text;
+    let currentroom = dataHolder.results[i].roomname;
     // console.log("currentroom is "+ currentroom );
-    var username;
-    var text;
-    var roomName;
+    let username;
+    let text;
+    let roomName;
     if(dataName){
      username = app.filterEscapes(dataName);
      }
@@ -96,9 +95,9 @@ function getInfo(data){
 
 }
 app.friendMatcher = function (){
-  var fullList = $('.posts');
-  for(var k = 0; k < fullList.length; k++){
-    for(var j =0; j <friendsSelected.length; j++){
+  let fullList = $('.posts');
+  for(let k = 0; k < fullList.length; k++){
+    for(let j =0; j <friendsSelected.length; j++){
       if(fullList[k].innerHTML.match(/[^:]+/)[0] === friendsSelected[j]){
         console.log("match");
         $(fullList[k]).addClass('username');
@@ -115,15 +114,15 @@ app.friendMatcher = function (){
 };
 
 app.roomSelect= function (){
-  var roomNameSelected = $("#roomMenu :selected").text();
+  let roomNameSelected = $("#roomMenu :selected").text();
   app.refreshFeed(roomNameSelected);
 };
 
 
 app.friendMaker = function(){
 
-  var currentName = $(this).text().match(/[^:]+/)[0];
-  var fullList = $('.posts');
+  let currentName = $(this).text().match(/[^:]+/)[0];
+  let fullList = $('.posts');
   if (friendsSelected.indexOf(currentName) ===-1){
     friendsSelected.push(currentName);
   }
